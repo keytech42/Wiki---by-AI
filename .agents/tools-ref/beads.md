@@ -19,6 +19,7 @@
 **NEVER skip this.** Work is not done until pushed.
 
 ## Core Rules
+- **언어 및 맥락 규정 (Language & Context):** Beads 이슈를 생성하거나 업데이트할 때는 **반드시 한국어**를 사용하며, `--acceptance`(인수 조건), `--design`(설계 의도), `--notes`(추가 맥락) 플래그를 적극적으로 활용하여 이슈의 컨텍스트 밀도를 극대화할 것.
 - **Default**: Use beads for ALL task tracking (`bd create`, `bd ready`, `bd close`)
 - **Prohibited**: Do NOT use TodoWrite, TaskCreate, or markdown files for task tracking
 - **Workflow**: Create beads issue BEFORE writing code, mark in_progress when starting
