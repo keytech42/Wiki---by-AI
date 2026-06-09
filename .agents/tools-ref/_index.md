@@ -1,7 +1,7 @@
 # Beads
-> `./agents/tools/beads.md`
+> `.agents/tools-ref/beads.md`
 
 
 # Obsidian CLI
-> `./agents/tools/obsidian-cli.md`
+> `.agents/tools-ref/obsidian-cli.md`
 

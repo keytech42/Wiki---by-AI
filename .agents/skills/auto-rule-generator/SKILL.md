@@ -18,9 +18,10 @@ This skill aligns with the AGENTS.md system instruction "반복 작업 탐지 �
 2. **Determine Target:** 
    - If it's a simple heuristic or constraint, it belongs in `AGENTS.md` under a new or existing section.
    - If it's a complex multi-step workflow with scripts, create a new skill in `.agents/skills/`.
-3. **Execute Update:**
+3. **Execute Update (Talk First):**
+   - **CRITICAL:** Before modifying `AGENTS.md`, you MUST propose the specific rule addition to the user and receive their explicit approval (Talk First, Act Later).
    - Use the `view_file` tool to read the current `AGENTS.md` to find the right place.
-   - Use `replace_file_content` or `multi_replace_file_content` to append or insert the rule into `AGENTS.md`.
+   - Upon user approval, use `replace_file_content` or `multi_replace_file_content` to append or insert the rule into `AGENTS.md`.
 4. **Track with Beads:** Ensure this system evolution is tracked via beads (e.g., `bd create --title="Auto-added rule: [Rule Name]" --type=task`).
 
 ## Context
