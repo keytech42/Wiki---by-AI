@@ -40,7 +40,11 @@
 - `bd show <id>` - Detailed issue view with dependencies
 
 ### Creating & Updating
-- `bd create --title="Summary of this issue" --description="Why this issue exists and what needs to be done" --type=task|bug|feature --priority=2` - New issue
+- `bd create --title="..." --description="..." --type=knowledge|meta|task --priority=2` - New issue
+  - **[🗂️ Two-Track Typology]**:
+    - `--type=knowledge` : STRICTLY for Zettelkasten deep-dives, research, and documentation (Builds the Knowledge Graph).
+    - `--type=meta` : STRICTLY for workspace infrastructure, agent rules, and system upgrades (Builds the Meta/System Graph).
+    - `--type=task|bug` : For standard coding or bug fixes.
   - Priority: 0-4 or P0-P4 (0=critical, 2=medium, 4=backlog). NOT "high"/"medium"/"low"
 
   **Advanced Create Flags (Context & Structure):**
