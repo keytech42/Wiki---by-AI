@@ -7,23 +7,26 @@
 
 # 🚨 SESSION CLOSE PROTOCOL 🚨
 
-**CRITICAL**: Before saying "done" or "complete", you MUST run this checklist:
+**CRITICAL**: You MUST adhere to the 2-Turn Commit Protocol when finishing work:
 
 ```
-[ ] 1. git status              (check what changed)
-[ ] 2. git add <files>         (stage code changes)
-[ ] 3. git commit -m "..."     (commit code)
-[ ] 4. git push                (push to remote)
+[Turn 1] Present work to user for verification. Wait for explicit approval.
+[Turn 2] ONLY after approval:
+[ ] 1. bd close <id>           (close the verified issues)
+[ ] 2. git status              (check what changed)
+[ ] 3. git add <files>         (stage code changes)
+[ ] 4. git commit -m "..."     (commit code)
+[ ] 5. git push                (push to remote)
 ```
 
 **NEVER skip this.** Work is not done until pushed.
 
 ## Core Rules
-- **언어 및 맥락 규정 (Language & Context):** Beads 이슈를 생성하거나 업데이트할 때는 **반드시 한국어**를 사용하며, `--acceptance`(인수 조건), `--design`(설계 의도), `--notes`(추가 맥락) 플래그를 적극적으로 활용하여 이슈의 컨텍스트 밀도를 극대화할 것.
+- **Language & Context Constraint:** When creating or updating Beads issues, you MUST use **Korean**. Actively utilize flags like `--acceptance`, `--design`, and `--notes` to maximize the context density of each issue.
 - **Default**: Use beads for ALL task tracking (`bd create`, `bd ready`, `bd close`)
 - **Prohibited**: Do NOT use TodoWrite, TaskCreate, or markdown files for task tracking
 - **Workflow**: Create beads issue BEFORE writing code, mark in_progress when starting
-- **Memory**: Use `bd remember "insight"` for persistent knowledge across sessions. Do NOT use MEMORY.md files — they fragment across accounts. Search with `bd memories <keyword>`.
+- **[💾 Persistent Lifeline] Memory**: Use `bd remember "insight"` for persistent knowledge across sessions. Do NOT use MEMORY.md files — they fragment across accounts. Search with `bd memories <keyword>`. (Crucial for preventing the agent from losing insights after a session ends).
 - Persistence you don't need beats lost context
 - Git workflow: beads auto-commit to Dolt, run `git push` at session end
 - Session management: check `bd ready` for available work
@@ -39,9 +42,25 @@
 ### Creating & Updating
 - `bd create --title="Summary of this issue" --description="Why this issue exists and what needs to be done" --type=task|bug|feature --priority=2` - New issue
   - Priority: 0-4 or P0-P4 (0=critical, 2=medium, 4=backlog). NOT "high"/"medium"/"low"
+
+  **Advanced Create Flags (Context & Structure):**
+  - **[🧠 Meta-Cognitive Core]** `--acceptance="Criteria"` : Define acceptance criteria.
+  - **[🧠 Meta-Cognitive Core]** `--design="Notes"` : Record design rationale and architectural decisions.
+  - `--notes="Context"` : Add supplementary background context and notes.
+  - `--context="String"` : Provide highly specific context for the issue.
+  - **[🛠️ Skill Binding]** `--skills="Skills"` : Specify the essential agent skills/tools required to solve this issue.
+  - `--parent="bd-id"` : Bind to a hierarchical parent epic/task.
+  - **[⛓️ Edge Connection]** `--deps="type:id"` : Actively search for and register dependencies (blockers, dependents) when creating issues. (Exception: If it is a truly independent Root Node, avoid polluting the graph with forced connections, but you must be able to justify its isolation).
+  - `--labels="a,b"` : Comma-separated labels.
+  - `--estimate=60` : Time estimate in minutes.
+  - `--due="tomorrow"` : Set due date (e.g., +2w, 2025-01-15).
+
 - `bd update <id> --claim` - Claim work
 - `bd update <id> --assignee=username` - Assign to someone
 - `bd update <id> --title/--description/--notes/--design` - Update fields inline
+- `bd note <id> "text"` - Append a quick note to the issue description.
+- `bd comment <id> "text"` - Add a comment to the issue thread (useful for conversational history tracking).
+- **[🔥 HIGH ROI]** `bd comment <id> --file logs.txt` - Use this as the primary method to attach unlimited context, preventing long error logs or multi-line code blocks from polluting the main issue description.
 - `bd close <id>` - Mark complete
 - `bd close <id1> <id2> ...` - Close multiple issues at once (more efficient)
 - `bd close <id> --reason="explanation"` - Close with reason
@@ -49,9 +68,11 @@
 - **WARNING**: Do NOT use `bd edit` - it opens $EDITOR (vim/nano) which blocks agents
 
 ### Dependencies & Blocking
-- `bd dep add <issue> <depends-on>` - Add dependency (issue depends on depends-on)
+- **[Edge Evaluation Principle]** The lifeblood of a Zettelkasten is connection. Rigorously search for existing dependencies (Edges) whenever creating a task or issue. However, if it is genuinely an independent Root Node, proudly leave it isolated rather than polluting the graph with forced connections—provided you can justify its isolation.
+- **[⛓️ Edge Connection]** `bd dep add <issue> <depends-on>` - Add dependency (Essential for visualizing the relationship network).
 - `bd blocked` - Show all blocked issues
 - `bd show <id>` - See what's blocking/blocked by this issue
+- **[📐 Geometric Mapping]** `bd graph` - Display a visual dependency graph of the entire workspace (Mandatory for structurally grasping complex dependencies during a deep-dive).
 
 ### Sync & Collaboration
 - `bd dolt push` - Push beads to Dolt remote
@@ -65,9 +86,6 @@
 
 ### Quality Tools
 - `bd create --validate` - Check description has required sections
-- `bd create --acceptance="criteria"` - Set acceptance criteria (checked by --validate)
-- `bd create --design="decisions"` - Record design decisions
-- `bd create --notes="context"` - Add supplementary notes
 - `bd config set validation.on-create warn` - Auto-validate on every create
 - `bd lint` - Check existing issues for missing sections
 
@@ -93,9 +111,11 @@ bd show <id>       # Review issue details
 bd update <id> --claim  # Claim it
 ```
 
-**Completing work:**
+**Completing work (2-Turn Commit Protocol):**
 ```bash
-bd close <id1> <id2> ...    # Close all completed issues at once
+# TURN 1: STOP. Present your work to the user for verification. Do NOT close the issue or commit yet.
+# TURN 2: Only after receiving explicit user approval ("Proceed" or "Commit"):
+bd close <id1> <id2> ...    # Close all verified issues
 git add . && git commit -m "..."  # Commit code changes
 git push                    # Push to remote
 ```

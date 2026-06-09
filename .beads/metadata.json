@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "wiki_by_ai",
+  "project_id": "16d8902f-e39a-4c63-9f7c-308f1a9f2aaa"
+}
