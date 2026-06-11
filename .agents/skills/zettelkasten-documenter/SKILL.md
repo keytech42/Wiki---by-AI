@@ -1,28 +1,30 @@
 ---
 name: zettelkasten-documenter
-description: Automatically documents, summarizes, and categorizes learning interactions into the Zettelkasten structure (00_MOCs, 10_Concepts, 20_Sessions).
+description: Automatically documents learning interactions into a Tag-based, Insight-heavy Zettelkasten structure.
 ---
 
 # Zettelkasten Documenter
 
 ## Purpose
-This skill aligns with the AGENTS.md instruction "위키(Wiki) 및 지식 문서화 가이드라인 (Zettelkasten)". It transforms conversational knowledge, deep dives, and solved problems into persistent, structured markdown notes.
+This skill aligns with the AGENTS.md instruction "위키(Wiki) 및 지식 문서화 가이드라인 (Zettelkasten)". It transforms deep dives and solved problems into persistent, highly dense markdown notes using a bottom-up graph structure.
 
 ## Triggers
-- When the user explicitly requests documentation (e.g., "Document this", "Save this to wiki", "Make a note of our session").
-- When the agent determines a highly valuable knowledge exchange has concluded and proactively suggests documentation (as required by AGENTS.md).
+- When the user explicitly requests documentation.
+- When the agent determines a highly valuable knowledge exchange has concluded and proactively suggests documentation.
 
 ## Actions
-1. **Categorize the Knowledge:**
-   - `00_MOCs/` (Map of Content): If the topic bridges multiple existing concepts or establishes a new major category, update or create an MOC index.
-   - `10_Concepts/` (Atomic Notes): If the knowledge is a single, focused theory, principle, or code pattern, create a note here.
-   - `20_Sessions/` (Session Logs): If documenting the narrative, context, and flow of the interaction itself, create a session log.
-2. **Draft the Content:**
-   - Adhere to the "학습자 페르소나" (Learner Persona): Be rigorous, expansive, and include underlying principles, not just black-box solutions.
-   - Follow strict markdown standards and include links to related concepts (`[[Concept Name]]` or standard markdown links).
-3. **Write the Files:**
-   - Use `write_to_file` to create the markdown files in the appropriate directories.
-4. **Track with Beads:** Track documentation efforts with beads if part of a larger epic or task (e.g., `bd create --title="Document [Topic] into Zettelkasten"`).
+1. **Categorize & Tag (Bottom-up Graph):**
+   - Place files in `10_Concepts/` for atomic knowledge or `20_Sessions/` for interaction logs.
+   - **CRITICAL:** Do NOT force premature linking to `00_MOCs/` (Tree structure). Instead, heavily utilize **Tag-based Multi-clustering**. Add tags in the YAML frontmatter or body (e.g., `#concept/tensor`, `#architecture/attention`) to allow natural, bottom-up knowledge graphs to emerge.
 
-## Context
-Fulfills requirements for Bead: `wiki-by-ai-hyb`.
+2. **Draft High-Density Content (Insight-Heavy):**
+   - **DO NOT write simple summaries or mere conclusions.**
+   - **Capture the Cognitive Journey:** Document the struggles, the "Why", the physical/geometric mapping, and the exact "Aha-moments" reached during the deep dive.
+   - **Contrast & Context:** Always contrast the fundamental principles with the limitations of "black-box" APIs or common junior mistakes. 
+   - Adhere to the "Deep-dive Learner Persona": Be mathematically and geometrically rigorous. Code should map 1:1 with theoretical concepts.
+
+3. **Write the Files:**
+   - Use `write_to_file` to create the markdown files. Ensure valid YAML frontmatter is included.
+
+4. **Track with Beads:**
+   - Track documentation efforts with beads. Ensure you use `--type=knowledge` for Zettelkasten documentations.
