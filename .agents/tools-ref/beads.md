@@ -40,7 +40,7 @@
 - `bd show <id>` - Detailed issue view with dependencies
 
 ### Creating & Updating
-- `bd create --title="..." --description="..." --type=knowledge|meta|task --priority=2` - New issue
+- `bash .agents/scripts/create_issue.sh --title="..." --description="..." --type=knowledge|meta|task --priority=2` - New issue (CRITICAL: DO NOT use bd create directly)
   - **[🗂️ Two-Track Typology]**:
     - `--type=knowledge` : STRICTLY for Zettelkasten deep-dives, research, and documentation (Builds the Knowledge Graph).
     - `--type=meta` : STRICTLY for workspace infrastructure, agent rules, and system upgrades (Builds the Meta/System Graph).
@@ -126,8 +126,8 @@ git push                    # Push to remote
 
 **Creating dependent work:**
 ```bash
-# Run bd create commands in parallel (use subagents for many items)
-bd create --title="Implement feature X" --description="Why this issue exists and what needs to be done" --type=feature
-bd create --title="Write tests for X" --description="Why this issue exists and what needs to be done" --type=task
+# Run bd create commands in parallel (CRITICAL: Use the wrapper script)
+bash .agents/scripts/create_issue.sh --title="Implement feature X" --description="Why this issue exists and what needs to be done" --type=task
+bash .agents/scripts/create_issue.sh --title="Write tests for X" --description="Why this issue exists and what needs to be done" --type=task
 bd dep add beads-yyy beads-xxx  # Tests depend on Feature (Feature blocks tests)
 ```
