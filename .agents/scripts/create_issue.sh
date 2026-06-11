@@ -10,9 +10,12 @@ CMD_ARGS=()
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --title=*) TITLE="${1#*=}"; CMD_ARGS+=("$1"); shift ;;
+        --title) TITLE="$2"; CMD_ARGS+=("$1" "$2"); shift 2 ;;
         --type=*) TYPE="${1#*=}"; CMD_ARGS+=("$1"); shift ;;
+        --type) TYPE="$2"; CMD_ARGS+=("$1" "$2"); shift 2 ;;
         --deps=*) DEPS="${1#*=}"; CMD_ARGS+=("$1"); shift ;;
-        *) CMD_ARGS+=("$1"); shift ;; # Capture all other advanced flags (--acceptance, --design, etc.)
+        --deps) DEPS="$2"; CMD_ARGS+=("$1" "$2"); shift 2 ;;
+        *) CMD_ARGS+=("$1"); shift ;; # Capture all other flags blindly
     esac
 done
 
@@ -57,26 +60,34 @@ fi
 # Pass validation, execute bd create
 echo "✅ Semantic validation passed. Creating issue..."
 bd create "${CMD_ARGS[@]}"
-BD_EXIT_CODE=$?
+EXIT_CODE=$?
 
-# Advanced Flags Warning & Reminders (Agent Reflection Prompt)
-if [[ $BD_EXIT_CODE -eq 0 ]]; then
+# If successful, output the nudge
+if [[ $EXIT_CODE -eq 0 ]]; then
+    if [[ -z "$DEPS" ]]; then
+        echo ""
+        echo "=========================================================="
+        echo "⚠️ [Agent Reflection: Missing Dependencies]"
+        echo "=========================================================="
+        echo "You just created an isolated issue without the '--deps' flag."
+        echo "Creating isolated nodes is an Anti-pattern in this workspace."
+        echo "If this issue is related to an existing Epic or Blocker, please"
+        echo "immediately link them using the 'bd dep add' command."
+        echo "=========================================================="
+        echo ""
+    fi
+    
     echo ""
     echo "=========================================================="
     echo "💡 [Agent Reflection: Advanced Context Flags]"
     echo "=========================================================="
-    if [[ -z "$DEPS" ]]; then
-        echo "⚠️ MISSING EDGE CONNECTION: You created an issue without --deps."
-        echo "   Rule Reminder: The workspace is a Graph. Isolated nodes are anti-patterns unless it is a true Root Node."
-        echo "   Action: If you forgot a blocker/epic, use 'bd dep add' immediately."
-        echo ""
-    fi
-    echo "Did you maximize the context density? Keep these powerful flags in mind for future use:"
-    echo "  - '--design=\"...\"' : Record architectural rationale and geometric mapping insights."
-    echo "  - '--acceptance=\"...\"' : Define clear 'Definition of Done'."
-    echo "  - '--notes=\"...\"' : Add supplementary background context."
-    echo "  - '--skills=\"...\"' : Bind specific agent skills needed for this task."
+    echo "Did you maximize the context density? Keep these in mind:"
+    echo " - [--design]: Specify architectural constraints or rationale."
+    echo " - [--acceptance]: Clearly define the 'Definition of Done'."
+    echo " - [--skills]: Pre-bind required agent skills for this task."
+    echo "Rich context prevents memory loss in future sessions."
     echo "=========================================================="
+    echo ""
 fi
 
-exit $BD_EXIT_CODE
+exit $EXIT_CODE

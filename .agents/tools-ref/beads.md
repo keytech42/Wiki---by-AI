@@ -34,10 +34,12 @@
 ## Essential Commands
 
 ### Finding Work
-- `bd ready` - Show issues ready to work (no blockers)
-- `bd list --status=open` - All open issues
-- `bd list --status=in_progress` - Your active work
-- `bd show <id>` - Detailed issue view with dependencies
+- **[🛡️ Hard Rule] DO NOT USE `bd list` directly.** It hides critical context (Design/Acceptance Criteria).
+- `bash .agents/scripts/read_issues.sh` - Read full details of all active issues.
+- `bash .agents/scripts/read_issues.sh --type=knowledge` - Filter ONLY Zettelkasten/Knowledge issues (Mentor Persona).
+- `bash .agents/scripts/read_issues.sh --type=meta` - Filter ONLY System/Infra issues (System Persona).
+- `bash .agents/scripts/read_issues.sh --status=open` - Filter by specific status.
+- `bd ready` - Show issues ready to work (still useful for a quick check, but must follow up with `bd show`).
 
 ### Creating & Updating
 - `bash .agents/scripts/create_issue.sh --title="..." --description="..." --type=knowledge|meta|task --priority=2` - New issue (CRITICAL: DO NOT use bd create directly)

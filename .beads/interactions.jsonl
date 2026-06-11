@@ -8,3 +8,5 @@
 {"id":"int-25195248","kind":"field_change","created_at":"2026-06-11T09:40:45.661525Z","actor":"Kee","issue_id":"wiki-by-ai-tcw","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
 {"id":"int-ed63bfad","kind":"field_change","created_at":"2026-06-11T09:41:02.79467Z","actor":"Kee","issue_id":"wiki-by-ai-prk","extra":{"field":"status","new_value":"in_progress","old_value":"open"}}
 {"id":"int-d004d31d","kind":"field_change","created_at":"2026-06-11T09:57:12.449335Z","actor":"Kee","issue_id":"wiki-by-ai-prk","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
+{"id":"int-694f3b87","kind":"field_change","created_at":"2026-06-11T10:09:19.330696Z","actor":"Kee","issue_id":"wiki-by-ai-33e","extra":{"field":"status","new_value":"in_progress","old_value":"deferred"}}
+{"id":"int-61e73653","kind":"field_change","created_at":"2026-06-11T10:31:11.636468Z","actor":"Kee","issue_id":"wiki-by-ai-33e","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}

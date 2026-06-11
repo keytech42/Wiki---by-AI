@@ -26,6 +26,12 @@ The user retains absolute low-level control. The AI is strictly forbidden from s
 ### 5. Self-Evolving Ruleset
 The space is alive. If the agent detects a repetitive task or a valuable ad-hoc workflow during a session, it proactively drafts a new `SKILL.md` or modifies `AGENTS.md` to permanently absorb that capability into its system.
 
+### 6. System Setup (For Human Users)
+To enforce the hard rules (Zettelkasten integrity, Conventional Commits) via Git Hooks, you must configure your local Git to use the `.githooks` directory upon cloning this repository:
+```bash
+git config core.hooksPath .githooks
+```
+
 ---
 
 ## 📂 Physical Directory Structure
