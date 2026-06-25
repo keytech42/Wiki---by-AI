@@ -1,0 +1,60 @@
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for git info
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Clone Quartz core
+        run: git clone https://github.com/jackyzha0/quartz.git .quartz-build
+
+      - name: Inject micro-configs
+        run: |
+          cp .quartz-config/quartz.config.yaml .quartz-build/
+          cp .quartz-config/custom.scss .quartz-build/quartz/styles/
+
+      - name: Install Dependencies
+        working-directory: .quartz-build
+        run: npm ci
+
+      - name: Build Quartz
+        working-directory: .quartz-build
+        run: npx quartz build -d ..
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .quartz-build/public
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
