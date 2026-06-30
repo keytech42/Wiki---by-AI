@@ -1,4 +1,7 @@
 document.addEventListener("nav", () => {
+  // 모바일 환경(<800px)에서는 스크립트 완전 차단
+  if (window.innerWidth < 800) return;
+
   // Prevent duplicate resizers
   if (document.getElementById('quartz-sidebar-resizer-left')) return;
 
@@ -23,10 +26,18 @@ document.addEventListener("nav", () => {
     resizer.style.cursor = 'col-resize';
     resizer.style.position = 'absolute';
     
+    // 모바일/태블릿 초기 로드 시 우측 사이드바 리사이저 숨김 처리
+    if (side === 'right' && window.innerWidth < 1200) {
+      resizer.style.display = 'none';
+      sidebar.style.width = '';
+      sidebar.style.minWidth = '';
+      sidebar.style.maxWidth = '';
+    }
+    
     if (side === 'left') {
-      resizer.style.right = '-4px'; // Center on the edge
+      resizer.style.right = '0px'; // 우측 가장자리에 딱 맞춤 (padding 영역 안)
     } else {
-      resizer.style.left = '-4px';
+      resizer.style.left = '0px';  // 좌측 가장자리에 딱 맞춤
     }
     
     resizer.style.top = '0';
@@ -78,5 +89,44 @@ document.addEventListener("nav", () => {
         resizer.style.backgroundColor = 'transparent';
       }
     });
+  });
+
+  // 브라우저 창 크기 동적 변경 대응
+  window.addEventListener('resize', () => {
+    // 1. 모바일 진입 시 (800px 미만): 모든 사이드바 초기화
+    if (window.innerWidth < 800) {
+      sidebars.forEach(({ element: sidebar, side }) => {
+        if (!sidebar) return;
+        sidebar.style.width = '';
+        sidebar.style.minWidth = '';
+        sidebar.style.maxWidth = '';
+        const resizer = document.getElementById(`quartz-sidebar-resizer-${side}`);
+        if (resizer) resizer.style.display = 'none';
+      });
+    } 
+    // 2. 태블릿 진입 시 (800px ~ 1199px): 우측 사이드바만 초기화 (하단으로 빠지므로)
+    else if (window.innerWidth >= 800 && window.innerWidth < 1200) {
+      sidebars.forEach(({ element: sidebar, side }) => {
+        if (!sidebar) return;
+        if (side === 'right') {
+          sidebar.style.width = '';
+          sidebar.style.minWidth = '';
+          sidebar.style.maxWidth = '';
+          const resizer = document.getElementById(`quartz-sidebar-resizer-${side}`);
+          if (resizer) resizer.style.display = 'none';
+        } else {
+          // 좌측 사이드바는 활성화
+          const resizer = document.getElementById(`quartz-sidebar-resizer-${side}`);
+          if (resizer) resizer.style.display = 'block';
+        }
+      });
+    }
+    // 3. 데스크탑 진입 시 (1200px 이상): 둘 다 활성화
+    else {
+      sidebars.forEach(({ side }) => {
+        const resizer = document.getElementById(`quartz-sidebar-resizer-${side}`);
+        if (resizer) resizer.style.display = 'block';
+      });
+    }
   });
 });

@@ -34,32 +34,42 @@ blockquote:not(.callout) {
 
 // 2. 양측 사이드바 드래그 크기 조절 기능 (Pure CSS + JS 협업)
 @media all and (min-width: 1200px) {
-  /* 그리드 컬럼이 양측 사이드바의 실제 width 속성을 따라가도록 강제 */
+  /* 데스크탑: 양측 사이드바 모두 max-content */
   #quartz-body {
     grid-template-columns: max-content auto max-content !important;
   }
+  
+  .left.sidebar, .right.sidebar {
+    width: 320px;
+    min-width: 200px;
+    max-width: 50vw;
+  }
+  
+  .left.sidebar { padding-right: 1rem; }
+  .right.sidebar { padding-left: 1rem; }
+  
+  .sidebar {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+  }
 }
 
-.sidebar {
-  /* 사이드바 내부 컨텐츠가 화면 높이(100vh)를 초과할 경우 개별 스크롤 허용 */
-  overflow-y: auto !important;
-  /* 스크롤바 커스텀 (옵션) */
-  scrollbar-width: thin;
-}
-
-.left.sidebar, .right.sidebar {
-  /* JS가 로드되기 전에 레이아웃이 깨지지 않도록 기본 폭 지정 */
-  width: 320px;
-  min-width: 200px;
-  max-width: 50vw;
-}
-
-.left.sidebar {
-  padding-right: 1rem;
-}
-
-.right.sidebar {
-  padding-left: 1rem;
+@media all and (min-width: 800px) and (max-width: 1199px) {
+  /* 태블릿: 좌측 사이드바만 max-content, 우측은 하단으로 이동하므로 auto */
+  #quartz-body {
+    grid-template-columns: max-content auto !important;
+  }
+  
+  .left.sidebar {
+    width: 320px;
+    min-width: 200px;
+    max-width: 50vw;
+    padding-right: 1rem;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+  }
 }
 
 /* TOC 접었을 때 'Table of Contents' 문구 가려짐 및 접힘 동작 픽스 */
