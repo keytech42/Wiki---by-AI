@@ -11,11 +11,12 @@
 
 ```
 [Turn 1] Present work to user for verification. Wait for explicit approval.
-[Turn 2] ONLY after approval:
+[Turn 2] ONLY after approval for commit:
 [ ] 1. bd close <id>           (close the verified issues)
 [ ] 2. git status              (check what changed)
 [ ] 3. git add <files>         (stage code changes)
 [ ] 4. git commit -m "..."     (commit code)
+[Turn 3] ONLY after user explicitly verifies commit and authorizes push:
 [ ] 5. git push                (push to remote)
 ```
 
@@ -117,13 +118,14 @@ bd show <id>       # Review issue details
 bd update <id> --claim  # Claim it
 ```
 
-**Completing work (2-Turn Commit Protocol):**
+**Completing work (3-Turn Commit/Push Protocol):**
 ```bash
 # TURN 1: STOP. Present your work to the user for verification. Do NOT close the issue or commit yet.
 # TURN 2: Only after receiving explicit user approval ("Proceed" or "Commit"):
 bd close <id1> <id2> ...    # Close all verified issues
 git add . && git commit -m "..."  # Commit code changes
-git push                    # Push to remote
+# TURN 3: Only after user explicitly approves the push (to allow --amend):
+git push                    # Push to remote (MUST BE A SEPARATE COMMAND/TURN)
 ```
 
 **Creating dependent work:**
