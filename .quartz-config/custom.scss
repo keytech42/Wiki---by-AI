@@ -1,3 +1,32 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// 1. 블록 인용구(Blockquote) 시각적 퀄리티 및 간격 개선
+blockquote {
+  margin: 1.5rem 0 !important;
+  padding: 1rem 1.5rem !important;
+  border-left: 4px solid var(--tertiary) !important;
+  background-color: var(--highlight);
+  border-radius: 0 8px 8px 0;
+  
+  p {
+    margin: 0 !important;
+  }
+}
+
+// 2. 좌측 사이드바 드래그 크기 조절 기능 (Pure CSS)
+@media all and (min-width: 1200px) {
+  /* 그리드 컬럼이 사이드바의 실제 width 속성을 따라가도록 강제 */
+  #quartz-body {
+    grid-template-columns: max-content auto 320px !important;
+  }
+}
+
+.left.sidebar {
+  /* 가로로만 드래그 리사이즈 허용 */
+  resize: horizontal;
+  overflow-x: hidden;
+  width: 320px;
+  min-width: 200px;
+  max-width: 50vw;
+  padding-right: 1rem;
+}
