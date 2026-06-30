@@ -34,6 +34,8 @@ jobs:
         run: |
           cp .quartz-config/quartz.config.yaml .quartz-build/
           cp .quartz-config/custom.scss .quartz-build/quartz/styles/
+          cp .quartz-config/custom-resize.js .quartz-build/quartz/static/
+          python3 -c "import os; p='.quartz-build/quartz/components/Head.tsx'; c=open(p).read(); open(p,'w').write(c.replace('</head>', '<script src=\"/Wiki---by-AI/static/custom-resize.js\" spa-preserve></script></head>'))"
 
       - name: Install Dependencies
         working-directory: .quartz-build

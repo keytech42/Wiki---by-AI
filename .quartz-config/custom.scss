@@ -1,32 +1,73 @@
 @use "./variables.scss" as *;
 
-// 1. 블록 인용구(Blockquote) 시각적 퀄리티 및 간격 개선
-blockquote {
-  margin: 1.5rem 0 !important;
-  padding: 1rem 1.5rem !important;
-  border-left: 4px solid var(--tertiary) !important;
-  background-color: var(--highlight);
+// 1. 일반 인용구(Blockquote) 시각적 개선 (Callout 스타일 충돌 방지)
+blockquote:not(.callout) {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--tertiary);
+  background-color: var(--lightgray);
   border-radius: 0 8px 8px 0;
   
   p {
-    margin: 0 !important;
+    margin: 0;
   }
 }
 
-// 2. 좌측 사이드바 드래그 크기 조절 기능 (Pure CSS)
+// 3. Callout 시각적 동기화 (광학적 착시 보정 및 청록색 유지)
+.callout[data-callout="info"] {
+  --color: #00b8d4; /* 오리지널 밝은 청록색으로 완전 원복 */
+  --border: rgba(0, 184, 212, 0.4); /* 테두리를 조금 더 선명하게 (투명도 40%) */
+  background-color: rgba(0, 184, 212, 0.15) !important; /* CSS 변수가 아닌 직접 강제 적용 */
+}
+
+/* 텍스트 렌더링과 SVG 마스크의 시각적 명도 차이를 보정 */
+.callout {
+  .callout-title, .callout-title-inner > p {
+    color: var(--color) !important; /* 강제 동기화 */
+  }
+  .callout-icon {
+    background-color: var(--color) !important;
+    opacity: 0.9; /* 아이콘 명도 밸런스 */
+  }
+}
+
+
+// 2. 양측 사이드바 드래그 크기 조절 기능 (Pure CSS + JS 협업)
 @media all and (min-width: 1200px) {
-  /* 그리드 컬럼이 사이드바의 실제 width 속성을 따라가도록 강제 */
+  /* 그리드 컬럼이 양측 사이드바의 실제 width 속성을 따라가도록 강제 */
   #quartz-body {
-    grid-template-columns: max-content auto 320px !important;
+    grid-template-columns: max-content auto max-content !important;
   }
 }
 
-.left.sidebar {
-  /* 가로로만 드래그 리사이즈 허용 */
-  resize: horizontal;
-  overflow-x: hidden;
+.sidebar {
+  /* 사이드바 내부 컨텐츠가 화면 높이(100vh)를 초과할 경우 개별 스크롤 허용 */
+  overflow-y: auto !important;
+  /* 스크롤바 커스텀 (옵션) */
+  scrollbar-width: thin;
+}
+
+.left.sidebar, .right.sidebar {
+  /* JS가 로드되기 전에 레이아웃이 깨지지 않도록 기본 폭 지정 */
   width: 320px;
   min-width: 200px;
   max-width: 50vw;
+}
+
+.left.sidebar {
   padding-right: 1rem;
+}
+
+.right.sidebar {
+  padding-left: 1rem;
+}
+
+/* TOC 접었을 때 'Table of Contents' 문구 가려짐 및 접힘 동작 픽스 */
+.toc:has(button.toc-header.collapsed) {
+  flex: 0 1 auto !important; /* 1.4rem 강제를 풀어서 제목과 아이콘이 짤리지 않게 함 */
+  height: max-content !important;
+}
+
+.toc:has(button.toc-header.collapsed) ul.toc-content {
+  display: none !important; /* 내용물(목차)을 명시적으로 숨겨서 완벽하게 접히도록 처리 */
 }
