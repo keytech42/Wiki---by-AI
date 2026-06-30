@@ -1,5 +1,35 @@
 @use "./variables.scss" as *;
 
+/* 브라우저 크기 조절 시 불필요한 반응형 전환 애니메이션 차단 (custom-resize.js 연동) */
+body.is-resizing * {
+  transition: none !important;
+}
+
+/* --- Proactive UI/UX Refinements --- */
+html {
+  /* 부드러운 해시 스크롤 지원 */
+  scroll-behavior: smooth;
+  /* 모바일 기기 터치 시 발생하는 기본 파란색 하이라이트 박스 제거 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 전체 페이지 스크롤바 디자인 통일 (사이드바처럼 얇고 세련되게) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray); /* 시인성을 높이기 위해 lightgray에서 gray로 변경 */
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--darkgray);
+}
+/* ----------------------------------- */
+
 // 1. 일반 인용구(Blockquote) 시각적 개선 (Callout 스타일 충돌 방지)
 blockquote:not(.callout) {
   margin: 1.5rem 0;
@@ -69,6 +99,15 @@ blockquote:not(.callout) {
     overflow-y: auto !important;
     overflow-x: hidden !important;
     scrollbar-width: thin;
+  }
+}
+
+@media all and (max-width: 799px) {
+  /* 모바일 진입 시 사이드바(메뉴)가 잠깐 번쩍이며 보이는 FOUC(Flash of Unstyled Content) 현상 방지 */
+  /* JS가 로드되어 명시적으로 열기(aria-expanded="true") 전까지는 무조건 화면 밖으로 숨김 */
+  .explorer:not([aria-expanded="true"]) > .explorer-content {
+    transform: translateX(-100vw) !important;
+    visibility: hidden !important;
   }
 }
 

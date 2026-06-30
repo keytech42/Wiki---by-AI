@@ -92,7 +92,15 @@ document.addEventListener("nav", () => {
   });
 
   // 브라우저 창 크기 동적 변경 대응
+  let resizeTimer;
   window.addEventListener('resize', () => {
+    // 0. 리사이징 중 애니메이션 억제를 위한 클래스 추가
+    document.body.classList.add('is-resizing');
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      document.body.classList.remove('is-resizing');
+    }, 150);
+
     // 1. 모바일 진입 시 (800px 미만): 모든 사이드바 초기화
     if (window.innerWidth < 800) {
       sidebars.forEach(({ element: sidebar, side }) => {
