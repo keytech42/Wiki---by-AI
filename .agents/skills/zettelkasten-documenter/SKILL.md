@@ -14,7 +14,7 @@ This skill aligns with the AGENTS.md instruction "위키(Wiki) 및 지식 문서
 
 ## Actions
 1. **Categorize & Tag (Bottom-up Graph):**
-   - Place files in `10_Concepts/` for atomic knowledge or `20_Sessions/` for interaction logs.
+   - Place files in `10_Concepts/` for atomic knowledge, `20_Sessions/` for interaction logs, or `30_Active_Retrieval/` for active learning/testing logs correcting misconceptions.
    - **CRITICAL:** Do NOT force premature linking to `00_MOCs/` (Tree structure). Instead, heavily utilize **Tag-based Multi-clustering**. Add tags in the YAML frontmatter or body (e.g., `#concept/tensor`, `#architecture/attention`) to allow natural, bottom-up knowledge graphs to emerge.
 
 2. **Draft High-Density Content (Insight-Heavy):**
