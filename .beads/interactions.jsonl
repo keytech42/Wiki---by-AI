@@ -23,3 +23,5 @@
 {"id":"int-18c25d49","kind":"field_change","created_at":"2026-07-03T04:08:08.061977Z","actor":"Kee","issue_id":"wiki-by-ai-c7i","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
 {"id":"int-431562ee","kind":"field_change","created_at":"2026-07-03T05:40:00.843943Z","actor":"Kee","issue_id":"wiki-by-ai-6s6","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
 {"id":"int-187b760a","kind":"field_change","created_at":"2026-07-03T06:05:57.640078Z","actor":"Kee","issue_id":"wiki-by-ai-oj8","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Closed"}}
+{"id":"int-901a4177","kind":"field_change","created_at":"2026-07-10T06:16:18.67864Z","actor":"Kee","issue_id":"wiki-by-ai-jeh.1","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"Phase 1 논의 완료. 메모리 연속성과 루프 순회에 대한 직관적 이해 달성."}}
+{"id":"int-6a5a9cae","kind":"field_change","created_at":"2026-07-15T07:20:46.781779Z","actor":"Kee","issue_id":"wiki-by-ai-4o1","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Closed"}}
