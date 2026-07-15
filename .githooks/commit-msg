@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Git commit-msg hook to enforce Conventional Commits and 2-Turn Protocol
+# Git commit-msg hook to enforce Conventional Commits and 3-Turn Protocol
 
 COMMIT_MSG_FILE=$1
 COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE")
@@ -10,6 +10,7 @@ if ! echo "$COMMIT_MSG" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|bui
     echo "   Commit message must follow Conventional Commits."
     echo "   Valid example: 'feat(infra): add pre-commit hook'"
     echo "   Your message: $COMMIT_MSG"
+    echo "   ℹ️ [Deadlock Prevention] If this commit fails, reopen/re-claim your issue using 'bd update <id> --claim' before attempting corrections."
     exit 1
 fi
 

@@ -8,7 +8,7 @@ echo "=========================================================="
 STAGED_MD=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.md$' || true)
 
 if [[ -n "$STAGED_MD" ]]; then
-    echo "$STAGED_MD" | while IFS= read -r file; do
+    while IFS= read -r file; do
         # Rule 1: 10_Concepts notes must have tags for multi-clustering
         if [[ "$file" == 10_Concepts/* ]]; then
             # Check the first 15 lines for frontmatter tags
@@ -19,8 +19,6 @@ if [[ -n "$STAGED_MD" ]]; then
                 exit 1
             fi
         fi
-    done
-    # Check exit code of the while loop pipe
-    if [ $? -ne 0 ]; then exit 1; fi
+    done <<< "$STAGED_MD"
     echo "✅ Zettelkasten Linter passed."
 fi

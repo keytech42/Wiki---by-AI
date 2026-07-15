@@ -7,17 +7,21 @@
 
 # 🚨 SESSION CLOSE PROTOCOL 🚨
 
-**CRITICAL**: You MUST adhere to the 2-Turn Commit Protocol when finishing work:
+**CRITICAL**: You MUST adhere to the 3-Turn Commit/Push Protocol when finishing work:
 
 ```
 [Turn 1] Present work to user for verification. Wait for explicit approval.
 [Turn 2] ONLY after approval for commit:
-[ ] 1. bd close <id>           (close the verified issues)
-[ ] 2. git status              (check what changed)
-[ ] 3. git add <files>         (stage code changes)
-[ ] 4. git commit -m "..."     (commit code)
+[ ] 1. git status              (check what changed)
+[ ] 2. git add <files>         (stage files first so pre-commit hooks can read them)
+[ ] 3. Run dry-run checks      (run `.githooks/pre-commit` manually to verify staged files)
+[ ] 4. bd close <id>           (close the issue only AFTER checking that linter passes)
+[ ] 5. git add .beads/         (stage beads tracking database changes)
+[ ] 6. git commit -m "..."     (commit staged changes)
+       * If commit fails (e.g. commit-msg linter), immediately reopen and reclaim the issue using:
+         'bd update <id> --claim --append-notes="Reopened due to commit failure"'
 [Turn 3] ONLY after user explicitly verifies commit and authorizes push:
-[ ] 5. git push                (push to remote)
+[ ] 7. git push                (push to remote)
 ```
 
 **NEVER skip this.** Work is not done until pushed.
@@ -122,10 +126,14 @@ bd update <id> --claim  # Claim it
 ```bash
 # TURN 1: STOP. Present your work to the user for verification. Do NOT close the issue or commit yet.
 # TURN 2: Only after receiving explicit user approval ("Proceed" or "Commit"):
-bd close <id1> <id2> ...    # Close all verified issues
-git add . && git commit -m "..."  # Commit code changes
+git add <files>                      # Stage changed files first
+bash .githooks/pre-commit            # Manually run dry-run pre-commit checks
+bd close <id1> <id2> ...             # Close verified issues only after checks pass
+git add .beads/                      # Stage beads state changes
+git commit -m "..."                  # Commit code changes
+# (If commit fails, run: bd update <id> --claim --append-notes="Reopened due to commit failure")
 # TURN 3: Only after user explicitly approves the push (to allow --amend):
-git push                    # Push to remote (MUST BE A SEPARATE COMMAND/TURN)
+git push                             # Push to remote (MUST BE A SEPARATE COMMAND/TURN)
 ```
 
 **Creating dependent work:**
